@@ -58,6 +58,8 @@ twitterPartition <- function() {
         print(finish - start)
 }
 
+newsPartition()
+twitterPartition()
 
 
 
