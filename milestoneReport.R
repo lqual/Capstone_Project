@@ -7,7 +7,6 @@ library(caret)
 library(SnowballC)
 
 
-
 #read data into R
 blogs <- read_lines(file("final/en_US/en_US.blogs.txt"), skip = 0)
 news <- read_lines(file("final/en_US/en_US.news.txt"), skip = 0)
@@ -40,6 +39,7 @@ writeCorpus(corpus, filenames = "corpus1.txt")
 
 
 #ngrams
+dtm <- DocumentTermMatrix(corpus)
 unigram <- findMostFreqTerms(dtm, n = 10L)
 dos <- function(x) unlist(lapply(ngrams(words(x), 2), paste, collapse = " "), use.names = FALSE)
 dtm2 <- DocumentTermMatrix(corpus,control=list(tokenize=dos))

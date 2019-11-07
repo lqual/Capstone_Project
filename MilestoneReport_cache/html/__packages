@@ -1,0 +1,10 @@
+base
+readr
+ngram
+textreg
+NLP
+tm
+lattice
+ggplot2
+caret
+SnowballC
