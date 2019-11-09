@@ -1,11 +1,16 @@
 ---
 title: "Milestone Report"
 author: "Lucas Qualmann"
-date: "11/6/2019"
+date: "11/9/2019"
 output: html_document
 ---
 
-# Libraries
+## Synopsis
+
+The goal of this paper is to do some exploratory data analysis on the data we'll use to create a text prediction algorithm.  There are three data files (blogs, news, and twitter) and each is very large and will need to be partitioned to get it into manageable pieces.  We'll also analyze the ngrams in the files to get an idea for most common elements.  Finally, we'll discuss the initial strategy for creating the text prediction algorithm.
+
+## Load Libraries
+
 ```{r, message=FALSE}
 library(readr)
 library(ngram)
@@ -15,6 +20,18 @@ library(caret)
 library(SnowballC)
 ```
 
+## Data Summary
+
+The three files we will use for the basis of our analysis are the US versions of blog, news, and twitter from our data source.  We first want to get an idea of how large these files are so we'll make a simple summary table to begin with.
+
+```{r, eval=FALSE}
+#loads data file onto computer if it isn't already there
+if(!file.exists("final")) {
+        url <- "https://d396qusza40orc.cloudfront.net/dsscapstone/dataset/Coursera-SwiftKey.zip"
+        download.file(url, "data.zip")
+        unzip("data.zip")
+}
+```
 ```{r, cache=TRUE}
 #read data into R
 blogs <- read_lines(file("final/en_US/en_US.blogs.txt"), skip = 0)
@@ -32,7 +49,70 @@ sum_table$Words <- c(wordcount(blogs), wordcount(news), wordcount(twitter))
 sum_table
 ```
 
-# Data Partitioning
+As you can see, these files are huge.  This will make it very difficult to do analysis on these files, so we will need to partition the data into more usable chunks.
+
+## Data Partitioning
+
+For partitioning the data, I wanted to create files which were 5% of each of the original files saved to my computer.  This would make it easy to add more data to the corpus when building the prediction model without having to redo the partitioning if we needed more data.  The code below shows how I partitioned the data into 20 chunks.  I would strongly suggest finding a more efficient way.  It took 8-9 hours to partition the blogs and news files, which I deemed reasonable since I had other things to do and a dedicated computer to run the R code.  It took the Twitter file over a day and a half to partition.  Since everything was saved, I won't try to find a more efficient way to partition it.
+
+```{r, eval=FALSE}
+blogsPartition <- function() {
+        library(readr)
+        library(caret)
+        #splits blogs into manageable chunks
+        start <- Sys.time()
+        blogs <- read_lines(file("final/en_US/en_US.blogs.txt"), skip = 0)
+        set.seed(485)
+        folds<-createFolds(blogs, 20)
+        for(i in 1:20) {
+                partition <- blogs[folds[[i]]]
+                name <- paste("split_data/blogs_", i, ".txt", sep = "")
+                write_lines(partition, name)
+        }
+finish <- Sys.time()
+print(finish - start)
+}
+
+
+newsPartition <- function() {
+        library(readr)
+        library(caret)
+        #splits news into manageable chunks
+        start <- Sys.time()
+        news <- read_lines(file("final/en_US/en_US.news.txt"), skip = 0)
+        set.seed(123)
+        folds<-createFolds(news, 20)
+        for(i in 1:20) {
+                partition <- news[folds[[i]]]
+                name <- paste("split_data/news_", i, ".txt", sep = "")
+                write_lines(partition, name)
+        }
+        finish <- Sys.time()
+        print(finish - start)
+}
+
+
+twitterPartition <- function() {
+        library(readr)
+        library(caret)
+        #splits twitter into manageable chunks
+        start <- Sys.time()
+        twitter <- read_lines(file("final/en_US/en_US.twitter.txt"), skip = 0)
+        set.seed(987)
+        folds<-createFolds(twitter, 20)
+        for(i in 1:20) {
+                partition <- twitter[folds[[i]]]
+                name <- paste("split_data/twitter_", i, ".txt", sep = "")
+                write_lines(partition, name)
+        }
+        finish <- Sys.time()
+        print(finish - start)
+}
+```
+
+## Data Processing
+
+For processing the data and making some plots, we will only look at one 5% chunk of the blogs, news, and twitter files.  After combining the files into a corpus, we will strip whitespace, make everything lowercase, remove punctuation, and remove numbers.  Since the goal of this project is to predict the next word of text, we won't remove stopwords.  I decided not to stem the words or remove profanity as I don't think that will help with the eventual predictor, but may have to do that step later if it the predictor isn't as accurate as wanted.
 
 ```{r, cache=TRUE}
 #data processing
@@ -47,6 +127,10 @@ corpus <- tm_map(corpus, removePunctuation)
 corpus <- tm_map(corpus, removeNumbers)
 ```
 
+## Plots of Ngrams
+
+Finally, let's plot some ngrams to see the most popular ones.  The first step is to make some document term matrices for unigrams, bigrams, trigrams, and pentagrams.  After those are built, we'll pull out the ten most frequent terms and plot them.
+
 ```{r, cache=TRUE}
 #ngrams
 dtm <- DocumentTermMatrix(corpus)
@@ -57,34 +141,67 @@ bigram <- findMostFreqTerms(dtm2, n = 10L)
 tres <- function(x) unlist(lapply(ngrams(words(x), 3), paste, collapse = " "), use.names = FALSE)
 dtm3 <- DocumentTermMatrix(corpus,control=list(tokenize=tres))
 trigram <- findMostFreqTerms(dtm3, n = 10L)
+cuatro <- function(x) unlist(lapply(ngrams(words(x), 4), paste, collapse = " "), use.names = FALSE)
+dtm4 <- DocumentTermMatrix(corpus,control=list(tokenize=cuatro))
+quadragram <- findMostFreqTerms(dtm4, n = 10L)
 cinco <- function(x) unlist(lapply(ngrams(words(x), 5), paste, collapse = " "), use.names = FALSE)
 dtm5 <- DocumentTermMatrix(corpus,control=list(tokenize=cinco))
 pentagram <- findMostFreqTerms(dtm5, n = 10L)
-```
 
-```{r, cache=TRUE}
 #plot ngrams
 unigram <- as.data.frame(unigram)
 par(mar=c(4, 4, 2, 1))
 barplot(unigram$X1, horiz = TRUE, names.arg = row.names(unigram), las = 1, xlab = "Occurences",
         main = "Top Ten Unigrams", col = "green")
+```
+
+The top ten unigrams contain a lot of stopwords.  We can also see that "the" and "and" blow every other word out of the water when it comes to occurences in our corpus.
+
+```{r, cache=TRUE}
 bigram <- as.data.frame(bigram)
 par(mar=c(4, 5, 2, 1))
 barplot(bigram$X1, horiz = TRUE, names.arg = row.names(bigram), las = 1, xlab = "Occurences",
         main = "Top Ten Bigrams", col = "purple")
+```
+
+The bigrams show again the popularity of the word "the" as it occurs in 8 of the top ten bigrams.
+
+```{r, cache=TRUE}
 trigram <- as.data.frame(trigram)
 par(mar=c(4, 6, 2, 1))
 barplot(trigram$X1, horiz = TRUE, names.arg = row.names(trigram), las = 1, xlab = "Occurences",
         main = "Top Ten Trigrams", col = "red")
+```
+
+Trigrams show a lot of occurences of the word "of".  You can also see that a lot of the trigrams appear to be phrases leading into words which don't occur as often and are more variable.
+
+```{r, cache=TRUE}
+quadragram <- as.data.frame(quadragram)
+par(mar=c(4, 9, 2, 1))
+barplot(quadragram$X1, horiz = TRUE, names.arg = row.names(quadragram), las = 1, xlab = "Occurences",
+        main = "Top Ten Quadragrams", col = "yellow")
+```
+
+
+
+```{r, cache=TRUE}
 pentagram <- as.data.frame(pentagram)
 par(mar=c(4, 9, 2, 1))
 barplot(pentagram$X1, horiz = TRUE, names.arg = row.names(pentagram), las = 1, xlab = "Occurences",
         main = "Top Ten Pentagrams", col = "blue")
 ```
 
+For pentagrams and quadgrams, we notice how the number of occurences falls off immensely vs the other ngrams.  Only 3 pentagrams occur more than 100 times in the pentagrams.  Quadgrams and pentagrams should be very useful for the prediction algorithm, but the limited number of them opens more opportunities for phrases to not be a part of them. 
 
+## Prediction Algorithm Plan
 
+My plan for the model is to first look at pentagrams, and see if there are any matches which would be able to predict the next word.  If there aren't any matches, I'll drop down one level to find a match.  If bigrams don't result in a prediction, the model will give the most common word as it's guess (most likely "the").  From there, I'll work on corpus adjustments to see if I can remove unlikely ngrams to speed up the model and how much data I need in the corpus to balance accuracy and speed.
 
+## R Session Info
+
+```{r, echo=FALSE}
+print(sessionInfo())
+```
 
 
 
