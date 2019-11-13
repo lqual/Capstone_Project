@@ -52,7 +52,7 @@ pentagram <- findMostFreqTerms(dtm5, n = pentalength)
 pentagram <- cleanNgrams(pentagram, 5)
 quadragram <- cleanNgrams(quadragram, 4)
 trigram <- cleanNgrams(trigram, 3)
-bigram1 <- cleanNgrams(bigram, 2)
+bigram <- cleanNgrams(bigram, 2)
 
 
 #old code
