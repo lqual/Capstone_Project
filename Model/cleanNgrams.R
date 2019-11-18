@@ -1,5 +1,5 @@
 #build dataframes function
-cleanNgrams <- function(ngram, numWords, filt = 5) {
+cleanNgrams <- function(ngram, numWords, filt = 1) {
         library(dplyr)
         library(stringr)
         library(tm)

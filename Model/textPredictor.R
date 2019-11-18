@@ -1,47 +1,80 @@
-library(dplyr)
-library(ngram)
-library(tm)
+getWord <- function(text) {
+        library(dplyr)
+        library(ngram)
+        library(tm)
+        library(stringr)
 
 
-#processing text
-text <- "It would mean the"
-length <- wordcount(text)
-text <- VCorpus(VectorSource(text))
-text <- tm_map(text, stripWhitespace)
-text <- tm_map(text, content_transformer(tolower))
-text <- tm_map(text, removePunctuation)
-text <- tm_map(text, removeNumbers)
-uno <- function(x) unlist(lapply(ngrams(words(x), length), paste, collapse = " "), use.names = FALSE)
-text <- DocumentTermMatrix(text,control=list(tokenize=uno))
-text <- findMostFreqTerms(text, n = 1)
-text <- as.data.frame(text)
-text <- rownames(text)
+        #processing text
+        text <- "If this isn't the cutest thing you've ever seen, then you must be"
+        length <- wordcount(text)
+        text <- VCorpus(VectorSource(text))
+        text <- tm_map(text, stripWhitespace)
+        text <- tm_map(text, content_transformer(tolower))
+        text <- tm_map(text, removePunctuation)
+        text <- tm_map(text, removeNumbers)
+        uno <- function(x) unlist(lapply(ngrams(words(x), length), paste, collapse = " "), 
+                                  use.names = FALSE)
+        text <- DocumentTermMatrix(text,control=list(tokenize=uno))
+        text <- findMostFreqTerms(text, n = 1)
+        text <- as.data.frame(text)
+        text <- rownames(text)
 
+        
+        #load ngrams
+        octogram <- read.csv("Model/octogram.csv", stringsAsFactors = F)
+        heptagram <- read.csv("Model/heptagram.csv", stringsAsFactors = F)
+        hexagram <- read.csv("Model/hexagram.csv", stringsAsFactors = F)
+        pentagram <- read.csv("Model/pentagram.csv", stringsAsFactors = F)
+        quadragram <- read.csv("Model/quadragram.csv", stringsAsFactors = F)
+        trigram <- read.csv("Model/trigram.csv", stringsAsFactors = F)
+        bigram <- read.csv("Model/bigram.csv", stringsAsFactors = F)
 
-#lookup in file
-numwords <- wordcount(text)
-text5 <- word(text, -4, numwords)
-#filtdf5 <- pentagram %>% filter(nchar == nchar(text5))
-lookup5 <- grep(text5, pentagram$string)
-answer5 <- data.frame(pentagram$next_word[lookup5])
+        #lookup in file
+        numwords <- wordcount(text)
+        text8 <- word(text, -7, numwords)
+        #filtdf5 <- pentagram %>% filter(nchar == nchar(text5))
+        lookup8 <- grep(text8, octogram$string)
+        answer8 <- data.frame(octogram$next_word[lookup8])
 
-text4 <- word(text, -3, numwords)
-#filtdf4 <- quadragram #%>% filter(nchar == nchar(text4))
-lookup4 <- grep(text4, quadragram$string)
-answer4 <- data.frame(quadragram$next_word[lookup4])
+#        text7 <- word(text, -6, numwords)
+        #filtdf5 <- pentagram %>% filter(nchar == nchar(text5))
+#        lookup7 <- grep(text7, heptagram$string)
+#        answer7 <- data.frame(heptagram$next_word[lookup7])
 
-text3 <- word(text, -2, numwords)
-#filtdf3 <- trigram #%>% filter(nchar == nchar(text3))
-lookup3 <- grep(text3, trigram$string)
-answer3 <- data.frame(trigram$next_word[lookup3])
+#        text6 <- word(text, -5, numwords)
+        #filtdf5 <- pentagram %>% filter(nchar == nchar(text5))
+#        lookup6 <- grep(text6, hexagram$string)
+#        answer6 <- data.frame(hexagram$next_word[lookup6])
 
-text2 <- word(text, -1, numwords)
-#filtdf2 <- bigram #%>% filter(nchar == nchar(text2))
-lookup2 <- grep(text2, bigram$string)
-answer2 <- data.frame(bigram$next_word[lookup2])
+        text5 <- word(text, -4, numwords)
+        #filtdf5 <- pentagram %>% filter(nchar == nchar(text5))
+        lookup5 <- grep(text5, pentagram$string)
+        answer5 <- data.frame(pentagram$next_word[lookup5])
 
+        text4 <- word(text, -3, numwords)
+        #filtdf4 <- quadragram #%>% filter(nchar == nchar(text4))
+        lookup4 <- grep(text4, quadragram$string)
+        answer4 <- data.frame(quadragram$next_word[lookup4])
+        
+        text3 <- word(text, -2, numwords)
+        #filtdf3 <- trigram #%>% filter(nchar == nchar(text3))
+        lookup3 <- grep(text3, trigram$string)
+        answer3 <- data.frame(trigram$next_word[lookup3])
 
+        text2 <- word(text, -1, numwords)
+        #filtdf2 <- bigram #%>% filter(nchar == nchar(text2))
+        lookup2 <- grep(text2, bigram$string)
+        answer2 <- data.frame(bigram$next_word[lookup2])
 
+        #return an answer
+        #finalAnswer <- rbind(answer8, answer7, answer6, answer5, 
+        #                     answer4, answer3, answer2)
+        finalAnswer <- rbind(answer8, answer5, answer4, answer3, answer2)
+        finalAnswer
+}
 
+grep("gorcery", answer3$trigram.next_word.lookup3.)
+grep("happiest", answer2$bigram.next_word.lookup2.)
 
 
