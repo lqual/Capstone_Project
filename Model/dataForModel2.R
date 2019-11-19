@@ -104,13 +104,15 @@ corpus <- tm_map(corpus, removeNumbers)
 
 
 #build ngrams
+
 ocho <- function(x) unlist(lapply(ngrams(words(x), 8), paste, collapse = " "), use.names = FALSE)
 dtm8 <- DocumentTermMatrix(corpus,control=list(tokenize=ocho))
 octolength <- round(length(as.matrix(dtm8))*.9)
 octogram <- findMostFreqTerms(dtm8, n = octolength)
 
 
-#run cleanNgrams 
+#run cleanNgrams
+
 source('~/Capstone_Project/Model/cleanNgrams.R')
 octogram <- cleanNgrams(octogram, 8)
 write.table(octogram, "Model/octogram.csv", col.names=T, row.name=F, append=F, sep=",")
@@ -130,11 +132,13 @@ write.table(octogram, "Model/octogram.csv", col.names=T, row.name=F, append=F, s
 
 
 #manually paste list into concatenate function
+
 string <- concatenate(blogs9, news9, twitter9, blogs4, news4, twitter4, blogs14, news14, 
                       twitter14, blogs11, news11, twitter11, blogs15, news15, twitter15)
 
 
 #prepare corpus
+
 corpus <- VCorpus(VectorSource(string))
 corpus <- tm_map(corpus, stripWhitespace)
 corpus <- tm_map(corpus, content_transformer(tolower))
@@ -143,6 +147,7 @@ corpus <- tm_map(corpus, removeNumbers)
 
 
 #build ngrams
+
 siete <- function(x) unlist(lapply(ngrams(words(x), 7), paste, collapse = " "), use.names = FALSE)
 dtm7 <- DocumentTermMatrix(corpus,control=list(tokenize=siete))
 heptalength <- round(length(as.matrix(dtm7))*.9)
@@ -150,6 +155,7 @@ heptagram <- findMostFreqTerms(dtm7, n = heptalength)
 
 
 #run cleanNgrams 
+
 source('~/Capstone_Project/Model/cleanNgrams.R')
 heptagram <- cleanNgrams(heptagram, 7)
 write.table(heptagram, "Model/heptagram.csv", col.names=T, row.name=F, append=F, sep=",")
@@ -169,11 +175,13 @@ write.table(heptagram, "Model/heptagram.csv", col.names=T, row.name=F, append=F,
 
 
 #manually paste list into concatenate function
+
 string <- concatenate(blogs8, news8, twitter8, blogs13, news13, twitter13, blogs5, news5, 
                       twitter5, blogs7, news7, twitter7, blogs3, news3, twitter3)
 
 
 #prepare corpus
+
 corpus <- VCorpus(VectorSource(string))
 corpus <- tm_map(corpus, stripWhitespace)
 corpus <- tm_map(corpus, content_transformer(tolower))
@@ -182,6 +190,7 @@ corpus <- tm_map(corpus, removeNumbers)
 
 
 #build ngrams
+
 seis <- function(x) unlist(lapply(ngrams(words(x), 6), paste, collapse = " "), use.names = FALSE)
 dtm6 <- DocumentTermMatrix(corpus,control=list(tokenize=seis))
 hexalength <- round(length(as.matrix(dtm6))*.9)
@@ -189,6 +198,7 @@ hexagram <- findMostFreqTerms(dtm6, n = hexalength)
 
 
 #run cleanNgrams 
+
 source('~/Capstone_Project/Model/cleanNgrams.R')
 hexagram <- cleanNgrams(hexagram, 6)
 write.table(hexagram, "Model/hexagram.csv", col.names=T, row.name=F, append=F, sep=",")
@@ -207,11 +217,14 @@ write.table(hexagram, "Model/hexagram.csv", col.names=T, row.name=F, append=F, s
 
 
 #manually paste list into concatenate function
+
 string <- concatenate(blogs13, news13, twitter13, blogs15, news15, twitter15, blogs8, 
                       news8, twitter8, blogs11, news11, twitter11)
-
+rm(blogs13, news13, twitter13, blogs15, news15, twitter15, blogs8, 
+   news8, twitter8, blogs11, news11, twitter11)
 
 #prepare corpus
+
 corpus <- VCorpus(VectorSource(string))
 corpus <- tm_map(corpus, stripWhitespace)
 corpus <- tm_map(corpus, content_transformer(tolower))
@@ -220,6 +233,7 @@ corpus <- tm_map(corpus, removeNumbers)
 
 
 #build ngrams
+
 cinco <- function(x) unlist(lapply(ngrams(words(x), 5), paste, collapse = " "), use.names = FALSE)
 dtm5 <- DocumentTermMatrix(corpus,control=list(tokenize=cinco))
 pentalength <- round(length(as.matrix(dtm5))*.9)
@@ -227,6 +241,7 @@ pentagram <- findMostFreqTerms(dtm5, n = pentalength)
 
 
 #run cleanNgrams 
+
 source('~/Capstone_Project/Model/cleanNgrams.R')
 pentagram <- cleanNgrams(pentagram, 5)
 write.table(pentagram, "Model/pentagram.csv", col.names=T, row.name=F, append=F, sep=",")
@@ -245,11 +260,14 @@ write.table(pentagram, "Model/pentagram.csv", col.names=T, row.name=F, append=F,
 
 
 #manually paste list into concatenate function
+
 string <- concatenate(blogs5, news5, twitter5, blogs6, news6, twitter6, 
                       blogs14, news14, twitter14, blogs1, news1, twitter1)
-
+rm(blogs5, news5, twitter5, blogs6, news6, twitter6, 
+   blogs14, news14, twitter14, blogs1, news1, twitter1)
 
 #prepare corpus
+
 corpus <- VCorpus(VectorSource(string))
 corpus <- tm_map(corpus, stripWhitespace)
 corpus <- tm_map(corpus, content_transformer(tolower))
@@ -258,6 +276,7 @@ corpus <- tm_map(corpus, removeNumbers)
 
 
 #build ngrams
+
 cuatro <- function(x) unlist(lapply(ngrams(words(x), 4), paste, collapse = " "), use.names = FALSE)
 dtm4 <- DocumentTermMatrix(corpus,control=list(tokenize=cuatro))
 quadralength <- round(length(as.matrix(dtm4))*.9)
@@ -265,6 +284,7 @@ quadragram <- findMostFreqTerms(dtm4, n = quadralength)
 
 
 #run cleanNgrams 
+
 source('~/Capstone_Project/Model/cleanNgrams.R')
 quadragram <- cleanNgrams(quadragram, 4)
 write.table(quadragram, "Model/quadragram.csv", col.names=T, row.name=F, append=F, sep=",")
@@ -283,11 +303,14 @@ write.table(quadragram, "Model/quadragram.csv", col.names=T, row.name=F, append=
 
 
 #manually paste list into concatenate function
+
 string <- concatenate(blogs7, news7, twitter7, blogs9, news9, twitter9, 
                       blogs2, news2, twitter2, blogs10, news10, twitter10)
-
+rm(blogs7, news7, twitter7, blogs9, news9, twitter9, 
+   blogs2, news2, twitter2, blogs10, news10, twitter10)
 
 #prepare corpus
+
 corpus <- VCorpus(VectorSource(string))
 corpus <- tm_map(corpus, stripWhitespace)
 corpus <- tm_map(corpus, content_transformer(tolower))
@@ -296,6 +319,7 @@ corpus <- tm_map(corpus, removeNumbers)
 
 
 #build ngrams
+
 tres <- function(x) unlist(lapply(ngrams(words(x), 3), paste, collapse = " "), use.names = FALSE)
 dtm3 <- DocumentTermMatrix(corpus,control=list(tokenize=tres))
 trilength <- round(length(as.matrix(dtm3))*.9)
@@ -303,6 +327,7 @@ trigram <- findMostFreqTerms(dtm3, n = trilength)
 
 
 #run cleanNgrams 
+
 source('~/Capstone_Project/Model/cleanNgrams.R')
 trigram <- cleanNgrams(trigram, 3, filt = 5)
 write.table(trigram, "Model/trigram.csv", col.names=T, row.name=F, append=F, sep=",")
@@ -320,11 +345,14 @@ write.table(trigram, "Model/trigram.csv", col.names=T, row.name=F, append=F, sep
 
 
 #manually paste list into concatenate function
+
 string <- concatenate(blogs4, news4, twitter4, blogs12, news12, 
                       twitter12, blogs3, news3, twitter3)
-
+rm(blogs4, news4, twitter4, blogs12, news12, 
+   twitter12, blogs3, news3, twitter3)
 
 #prepare corpus
+
 corpus <- VCorpus(VectorSource(string))
 corpus <- tm_map(corpus, stripWhitespace)
 corpus <- tm_map(corpus, content_transformer(tolower))
@@ -333,6 +361,7 @@ corpus <- tm_map(corpus, removeNumbers)
 
 
 #build ngrams
+
 dos <- function(x) unlist(lapply(ngrams(words(x), 2), paste, collapse = " "), use.names = FALSE)
 dtm2 <- DocumentTermMatrix(corpus,control=list(tokenize=dos))
 bilength <- round(length(as.matrix(dtm2))*.9)
@@ -340,6 +369,7 @@ bigram <- findMostFreqTerms(dtm2, n = bilength)
 
 
 #run cleanNgrams 
+
 source('~/Capstone_Project/Model/cleanNgrams.R')
 bigram <- cleanNgrams(bigram, 2, filt = 10)
 write.table(bigram, "Model/bigram.csv", col.names=T, row.name=F, append=F, sep=",")
