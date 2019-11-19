@@ -374,9 +374,10 @@ write.table(bigram, "Model/bigram.csv", col.names=T, row.name=F, append=F, sep="
 
 
 #build unigrams
+
 dtm <- DocumentTermMatrix(corpus)
 unigram <- findMostFreqTerms(dtm, n = 10L)
-
+write.table(unigram, "Model/unigram.csv", col.names=T, row.name=F, append=F, sep=",")
 
 
 
