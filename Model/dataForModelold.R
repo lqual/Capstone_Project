@@ -92,13 +92,13 @@ write.table(heptagram, "Model/heptagram.csv", col.names=T, row.name=F, append=F,
 hexagram <- cleanNgrams(hexagram, 6)
 write.table(hexagram, "Model/hexagram.csv", col.names=T, row.name=F, append=F, sep=",")
 
-pentagram <- cleanNgrams(pentagram, 5, filt = 5)
+pentagram <- cleanNgrams(pentagram, 5)
 write.table(pentagram, "Model/pentagram.csv", col.names=T, row.name=F, append=F, sep=",")
-quadragram <- cleanNgrams(quadragram, 4, filt = 10)
+quadragram <- cleanNgrams(quadragram, 4)
 write.table(quadragram, "Model/quadragram.csv", col.names=T, row.name=F, append=F, sep=",")
-trigram <- cleanNgrams(trigram, 3, filt = 15)
+trigram <- cleanNgrams(trigram, 3, filt = 5)
 write.table(trigram, "Model/trigram.csv", col.names=T, row.name=F, append=F, sep=",")
-bigram <- cleanNgrams(bigram, 2, filt = 20)
+bigram <- cleanNgrams(bigram, 2, filt = 10)
 write.table(bigram, "Model/bigram.csv", col.names=T, row.name=F, append=F, sep=",")
 
 #old code
