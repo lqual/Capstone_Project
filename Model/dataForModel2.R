@@ -220,8 +220,7 @@ write.table(hexagram, "Model/hexagram.csv", col.names=T, row.name=F, append=F, s
 
 string <- concatenate(blogs13, news13, twitter13, blogs15, news15, twitter15, blogs8, 
                       news8, twitter8, blogs11, news11, twitter11)
-rm(blogs13, news13, twitter13, blogs15, news15, twitter15, blogs8, 
-   news8, twitter8, blogs11, news11, twitter11)
+
 
 #prepare corpus
 
@@ -263,8 +262,7 @@ write.table(pentagram, "Model/pentagram.csv", col.names=T, row.name=F, append=F,
 
 string <- concatenate(blogs5, news5, twitter5, blogs6, news6, twitter6, 
                       blogs14, news14, twitter14, blogs1, news1, twitter1)
-rm(blogs5, news5, twitter5, blogs6, news6, twitter6, 
-   blogs14, news14, twitter14, blogs1, news1, twitter1)
+
 
 #prepare corpus
 
@@ -306,8 +304,7 @@ write.table(quadragram, "Model/quadragram.csv", col.names=T, row.name=F, append=
 
 string <- concatenate(blogs7, news7, twitter7, blogs9, news9, twitter9, 
                       blogs2, news2, twitter2, blogs10, news10, twitter10)
-rm(blogs7, news7, twitter7, blogs9, news9, twitter9, 
-   blogs2, news2, twitter2, blogs10, news10, twitter10)
+
 
 #prepare corpus
 
@@ -348,8 +345,7 @@ write.table(trigram, "Model/trigram.csv", col.names=T, row.name=F, append=F, sep
 
 string <- concatenate(blogs4, news4, twitter4, blogs12, news12, 
                       twitter12, blogs3, news3, twitter3)
-rm(blogs4, news4, twitter4, blogs12, news12, 
-   twitter12, blogs3, news3, twitter3)
+
 
 #prepare corpus
 
