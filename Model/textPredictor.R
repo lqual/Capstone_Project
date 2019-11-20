@@ -22,13 +22,13 @@ getWord <- function(text) {
 
         
         #load ngrams
-        octogram <- read.csv("Model/octogram.csv", stringsAsFactors = F)
-        heptagram <- read.csv("Model/heptagram.csv", stringsAsFactors = F)
-        hexagram <- read.csv("Model/hexagram.csv", stringsAsFactors = F)
-        pentagram <- read.csv("Model/pentagram.csv", stringsAsFactors = F)
-        quadragram <- read.csv("Model/quadragram.csv", stringsAsFactors = F)
-        trigram <- read.csv("Model/trigram.csv", stringsAsFactors = F)
-        bigram <- read.csv("Model/bigram.csv", stringsAsFactors = F)
+        octogram <- read.csv("Model/octogram_final.csv", stringsAsFactors = F)
+        heptagram <- read.csv("Model/heptagram_final.csv", stringsAsFactors = F)
+        hexagram <- read.csv("Model/hexagram_final.csv", stringsAsFactors = F)
+        pentagram <- read.csv("Model/pentagram_final.csv", stringsAsFactors = F)
+        quadragram <- read.csv("Model/quadragram_final.csv", stringsAsFactors = F)
+        trigram <- read.csv("Model/trigram_final.csv", stringsAsFactors = F)
+        bigram <- read.csv("Model/bigram_final.csv", stringsAsFactors = F)
 
         #lookup in file
         numwords <- wordcount(text)
