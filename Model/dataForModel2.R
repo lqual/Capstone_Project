@@ -367,7 +367,7 @@ bigram <- findMostFreqTerms(dtm2, n = bilength)
 #run cleanNgrams 
 
 source('~/Capstone_Project/Model/cleanNgrams.R')
-bigram <- cleanNgrams(bigram, 2, filt = 10)
+bigram <- cleanNgrams(bigram, 2, filt = 5)
 write.table(bigram, "Model/bigram.csv", col.names=T, row.name=F, append=F, sep=",")
 
 ############### end bigram #######################
