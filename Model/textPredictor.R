@@ -1,4 +1,5 @@
 getWord <- function(text) {
+        #start <- Sys.time()
         library(dplyr)
         library(ngram)
         library(tm)
@@ -6,7 +7,7 @@ getWord <- function(text) {
 
 
         #processing text
-        text <- "If this isn't the cutest thing you've ever seen, then you must be"
+        #text <- "If this isn't the cutest thing you've ever seen, then you must be"
         length <- wordcount(text)
         text <- VCorpus(VectorSource(text))
         text <- tm_map(text, stripWhitespace)
@@ -36,42 +37,54 @@ getWord <- function(text) {
         #filtdf5 <- pentagram %>% filter(nchar == nchar(text5))
         lookup8 <- grep(text8, octogram$string)
         answer8 <- data.frame(octogram$next_word[lookup8])
+        colnames(answer8) <- "answer"
 
-#        text7 <- word(text, -6, numwords)
+        text7 <- word(text, -6, numwords)
         #filtdf5 <- pentagram %>% filter(nchar == nchar(text5))
-#        lookup7 <- grep(text7, heptagram$string)
-#        answer7 <- data.frame(heptagram$next_word[lookup7])
+        lookup7 <- grep(text7, heptagram$string)
+        answer7 <- data.frame(heptagram$next_word[lookup7])
+        colnames(answer7) <- "answer"
 
-#        text6 <- word(text, -5, numwords)
+        text6 <- word(text, -5, numwords)
         #filtdf5 <- pentagram %>% filter(nchar == nchar(text5))
-#        lookup6 <- grep(text6, hexagram$string)
-#        answer6 <- data.frame(hexagram$next_word[lookup6])
+        lookup6 <- grep(text6, hexagram$string)
+        answer6 <- data.frame(hexagram$next_word[lookup6])
+        colnames(answer6) <- "answer"
 
         text5 <- word(text, -4, numwords)
         #filtdf5 <- pentagram %>% filter(nchar == nchar(text5))
         lookup5 <- grep(text5, pentagram$string)
         answer5 <- data.frame(pentagram$next_word[lookup5])
+        colnames(answer5) <- "answer"
 
         text4 <- word(text, -3, numwords)
         #filtdf4 <- quadragram #%>% filter(nchar == nchar(text4))
         lookup4 <- grep(text4, quadragram$string)
         answer4 <- data.frame(quadragram$next_word[lookup4])
+        colnames(answer4) <- "answer"
         
         text3 <- word(text, -2, numwords)
         #filtdf3 <- trigram #%>% filter(nchar == nchar(text3))
         lookup3 <- grep(text3, trigram$string)
         answer3 <- data.frame(trigram$next_word[lookup3])
+        colnames(answer3) <- "answer"
 
         text2 <- word(text, -1, numwords)
         #filtdf2 <- bigram #%>% filter(nchar == nchar(text2))
         lookup2 <- grep(text2, bigram$string)
         answer2 <- data.frame(bigram$next_word[lookup2])
+        colnames(answer2) <- "answer"
 
         #return an answer
-        #finalAnswer <- rbind(answer8, answer7, answer6, answer5, 
-        #                     answer4, answer3, answer2)
-        finalAnswer <- rbind(answer8, answer5, answer4, answer3, answer2)
+        finalAnswer <- rbind(answer8, answer7, answer6, answer5, 
+                             answer4, answer3, answer2)
+        index <- which(duplicated(finalAnswer$answer))
+        finalAnswer <- finalAnswer %>% mutate(column = 1)
+        finalAnswer <- finalAnswer[-index, ]
+        finalAnswer <- finalAnswer %>% select(answer)
         finalAnswer
+        #finish <- Sys.time()
+        #finish - start
 }
 
 grep("gorcery", answer3$trigram.next_word.lookup3.)
