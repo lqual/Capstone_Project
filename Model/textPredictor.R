@@ -92,6 +92,7 @@ getword <- function(text) {
         finalAnswer <- finalAnswer[-index, ]
         finalAnswer <- finalAnswer[!is.na(finalAnswer$answer), ]
         finalAnswer <- finalAnswer %>% select(answer)
+        finalAnswer$answer <- as.character(finalAnswer$answer)
         head(finalAnswer, 3)
         #finish <- Sys.time()
         #finish - start
