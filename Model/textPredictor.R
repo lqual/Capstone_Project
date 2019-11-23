@@ -1,4 +1,4 @@
-getWord <- function(text) {
+getword <- function(text) {
         #start <- Sys.time()
         library(dplyr)
         library(ngram)
@@ -7,7 +7,6 @@ getWord <- function(text) {
 
 
         #processing text
-        #text <- "If this isn't the cutest thing you've ever seen, then you must be"
         length <- wordcount(text)
         text <- VCorpus(VectorSource(text))
         text <- tm_map(text, stripWhitespace)
@@ -74,20 +73,43 @@ getWord <- function(text) {
         lookup2 <- grep(text2, bigram$string)
         answer2 <- data.frame(bigram$next_word[lookup2])
         colnames(answer2) <- "answer"
+        
+        myprobs <- c(10/26, 5/26, 2/26, 2/26, 2/26, 1/26, 1/26, 1/26, 1/26, 1/26)
+        lookup1 <- sample(1:10, size = 3, replace = FALSE, prob = myprobs)
+        unigram <- data.frame(next_word = c("the", "and", "for", "that", "you",
+                                            "with", "Was", "this", "have","are"))
+        answer1 <- data.frame(unigram$next_word[lookup1])
+        colnames(answer1) <- "answer"
+        
+        answer0 <- data.frame(answer = c("taco", "taco"))
 
         #return an answer
         finalAnswer <- rbind(answer8, answer7, answer6, answer5, 
-                             answer4, answer3, answer2)
+                             answer4, answer3, answer2, answer1, 
+                             answer0)
         index <- which(duplicated(finalAnswer$answer))
         finalAnswer <- finalAnswer %>% mutate(column = 1)
         finalAnswer <- finalAnswer[-index, ]
+        finalAnswer <- finalAnswer[!is.na(finalAnswer$answer), ]
         finalAnswer <- finalAnswer %>% select(answer)
-        finalAnswer
+        head(finalAnswer, 3)
         #finish <- Sys.time()
         #finish - start
 }
 
-grep("gorcery", answer3$trigram.next_word.lookup3.)
-grep("happiest", answer2$bigram.next_word.lookup2.)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
