@@ -14,9 +14,9 @@ shinyUI(fluidPage(theme = shinytheme("flatly"),
                         h4("This application attempts to predict the next word of a phrase."),
                         h4("To use the application, type a phrase in the text box below, and hit the 
                            submit button.  A spinner will indicate the application is running 
-                           (approximately 2-5 seconds)."),
-                        h4("Once the application is done running, you will see three predicted words 
-                           in order of the application's confidence level."),  
+                           (it takes approximately 3-5 seconds to run)."),
+                        h4("Once the application is done running, you will see the application's 
+                           first, second, and third choice of predicted words."),  
                         textInput("text", "Input Phrase:", "write a phrase here"),
                         actionButton(
                                 inputId = "submit_text",
@@ -25,7 +25,7 @@ shinyUI(fluidPage(theme = shinytheme("flatly"),
                         h5("If you want to try a different phrase after running the application, repeat 
                            the process of typing a phrase into the text box and hitting the submit 
                            button.  The spinner will pop up again until the application is done running, 
-                           and the new prediction appears.")
+                           and the new predictions appear.")
                 ),
                 mainPanel(
                         textOutput("phrase1"),

@@ -121,15 +121,15 @@ shinyServer(function(input, output) {
                         })
                         
                         output$phrase2 <- renderText({
-                                paste("Not impressed by the predictions?  Try typing the same phrase 
-                                      into your cell phone's keyboard.  You might be surprised at 
-                                      how difficult it is to predict text!")
+                                paste("Are any of the predictions correct?  Try typing the same 
+                                phrase into your cell phone's keyboard.  You might be surprised at 
+                                how difficult it is to predict text!")
                         })
                         
                         output$phrase3 <- renderText({
-                                paste("Note for reviewers: application predicts next three words to 
-                                      better match normal cell phone text predictors, not to improve 
-                                      the accuracy of the application for grading purposes.")
+                                paste("Note for coursera reviewers: application predicts next three 
+                                words to better match normal cell phone text predictors, not to 
+                                improve the accuracy of the application for grading purposes.")
                         })
                         remove_modal_spinner()
                 }
