@@ -12,9 +12,11 @@ shinyUI(fluidPage(theme = shinytheme("flatly"),
         sidebarLayout(
                 sidebarPanel(
                         h4("This application attempts to predict the next word of a phrase."),
-                        h4("To use the application, type a phrase in the text box below, and hit the 
-                           submit button.  A spinner will indicate the application is running 
-                           (it takes approximately 3-5 seconds to run)."),
+                        h4("To use the application, type a phrase in the text box below ommitting 
+                        the word you want predicted and hit the submit button.  A spinner will 
+                        indicate the application is running (it takes approximately 3-5 seconds to 
+                        run).  Proper punctuation and capitalization aren't necessary for your 
+                        phrase."),
                         h4("Once the application is done running, you will see the application's 
                            first, second, and third choice of predicted words."),  
                         textInput("text", "Input Phrase:", "write a phrase here"),
@@ -25,7 +27,7 @@ shinyUI(fluidPage(theme = shinytheme("flatly"),
                         h5("If you want to try a different phrase after running the application, repeat 
                            the process of typing a phrase into the text box and hitting the submit 
                            button.  The spinner will pop up again until the application is done running, 
-                           and the new predictions appear.")
+                           and the new predictions will appear.")
                 ),
                 mainPanel(
                         textOutput("phrase1"),
