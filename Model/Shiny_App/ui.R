@@ -14,9 +14,8 @@ shinyUI(fluidPage(theme = shinytheme("flatly"),
                         h4("This application attempts to predict the next word of a phrase."),
                         h4("To use the application, type a phrase in the text box below ommitting 
                         the word you want predicted and hit the submit button.  A spinner will 
-                        indicate the application is running (it takes approximately 3-5 seconds to 
-                        run).  Proper punctuation and capitalization aren't necessary for your 
-                        phrase."),
+                        indicate the application is running (it'll take a couple of seconds).  
+                        Proper punctuation and capitalization aren't necessary for your phrase."),
                         h4("Once the application is done running, you will see the application's 
                            first, second, and third choice of predicted words."),  
                         textInput("text", "Input Phrase:", "write a phrase here"),
