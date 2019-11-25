@@ -6,6 +6,16 @@ library(stringr)
 library(shinybusy)
 library(shinythemes)
 shinyServer(function(input, output) {
+        #load ngrams
+        octogram <- read.csv("octogram_final.csv", stringsAsFactors = F)
+        heptagram <- read.csv("heptagram_final.csv", stringsAsFactors = F)
+        hexagram <- read.csv("hexagram_final.csv", stringsAsFactors = F)
+        pentagram <- read.csv("pentagram_final.csv", stringsAsFactors = F)
+        quadragram <- read.csv("quadragram_final.csv", stringsAsFactors = F)
+        trigram <- read.csv("trigram_final.csv", stringsAsFactors = F)
+        bigram <- read.csv("bigram_final.csv", stringsAsFactors = F)
+        
+        
         observeEvent(input$submit_text, {
                         show_modal_spinner()
                         text <- input$text
@@ -31,15 +41,6 @@ shinyServer(function(input, output) {
                                 text <- rownames(text)
                         }
                         
-                        
-                        #load ngrams
-                        octogram <- read.csv("octogram_final.csv", stringsAsFactors = F)
-                        heptagram <- read.csv("heptagram_final.csv", stringsAsFactors = F)
-                        hexagram <- read.csv("hexagram_final.csv", stringsAsFactors = F)
-                        pentagram <- read.csv("pentagram_final.csv", stringsAsFactors = F)
-                        quadragram <- read.csv("quadragram_final.csv", stringsAsFactors = F)
-                        trigram <- read.csv("trigram_final.csv", stringsAsFactors = F)
-                        bigram <- read.csv("bigram_final.csv", stringsAsFactors = F)
                         
                         #lookup in file
                         answer8 <- data.frame(matrix(ncol = 1))
