@@ -11,18 +11,25 @@ shinyServer(function(input, output) {
                         text <- input$text
                         
                         #processing text
-                        length <- wordcount(text)
-                        text <- VCorpus(VectorSource(text))
-                        text <- tm_map(text, stripWhitespace)
-                        text <- tm_map(text, content_transformer(tolower))
-                        text <- tm_map(text, removePunctuation)
-                        text <- tm_map(text, removeNumbers)
-                        uno <- function(x) unlist(lapply(ngrams(words(x), length), paste, collapse = " "), 
-                                                  use.names = FALSE)
-                        text <- DocumentTermMatrix(text,control=list(tokenize=uno))
-                        text <- findMostFreqTerms(text, n = 1)
-                        text <- as.data.frame(text)
-                        text <- rownames(text)
+                        if(wordcount(text) == 1) {
+                                text <- tolower(text)
+                                text <- trimws(text, which = "both")
+                                text <- removePunctuation(text)
+                                text <- removeNumbers(text)
+                        } else {
+                                length <- wordcount(text)
+                                text <- VCorpus(VectorSource(text))
+                                text <- tm_map(text, stripWhitespace)
+                                text <- tm_map(text, content_transformer(tolower))
+                                text <- tm_map(text, removePunctuation)
+                                text <- tm_map(text, removeNumbers)
+                                uno <- function(x) unlist(lapply(ngrams(words(x), length), paste, collapse = " "), 
+                                                          use.names = FALSE)
+                                text <- DocumentTermMatrix(text,control=list(tokenize=uno))
+                                text <- findMostFreqTerms(text, n = 1)
+                                text <- as.data.frame(text)
+                                text <- rownames(text)
+                        }
                         
                         
                         #load ngrams
@@ -35,42 +42,67 @@ shinyServer(function(input, output) {
                         bigram <- read.csv("bigram_final.csv", stringsAsFactors = F)
                         
                         #lookup in file
-                        numwords <- wordcount(text)
-                        text8 <- word(text, -7, numwords)
-                        #filtdf5 <- pentagram %>% filter(nchar == nchar(text5))
-                        lookup8 <- grep(text8, octogram$string)
-                        answer8 <- data.frame(octogram$next_word[lookup8])
+                        answer8 <- data.frame(matrix(ncol = 1))
                         colnames(answer8) <- "answer"
-                        
-                        text7 <- word(text, -6, numwords)
-                        #filtdf5 <- pentagram %>% filter(nchar == nchar(text5))
-                        lookup7 <- grep(text7, heptagram$string)
-                        answer7 <- data.frame(heptagram$next_word[lookup7])
+                        answer7 <- data.frame(matrix(ncol = 1))
                         colnames(answer7) <- "answer"
-                        
-                        text6 <- word(text, -5, numwords)
-                        #filtdf5 <- pentagram %>% filter(nchar == nchar(text5))
-                        lookup6 <- grep(text6, hexagram$string)
-                        answer6 <- data.frame(hexagram$next_word[lookup6])
+                        answer6 <- data.frame(matrix(ncol = 1))
                         colnames(answer6) <- "answer"
-                        
-                        text5 <- word(text, -4, numwords)
-                        #filtdf5 <- pentagram %>% filter(nchar == nchar(text5))
-                        lookup5 <- grep(text5, pentagram$string)
-                        answer5 <- data.frame(pentagram$next_word[lookup5])
+                        answer5 <- data.frame(matrix(ncol = 1))
                         colnames(answer5) <- "answer"
-                        
-                        text4 <- word(text, -3, numwords)
-                        #filtdf4 <- quadragram #%>% filter(nchar == nchar(text4))
-                        lookup4 <- grep(text4, quadragram$string)
-                        answer4 <- data.frame(quadragram$next_word[lookup4])
+                        answer4 <- data.frame(matrix(ncol = 1))
                         colnames(answer4) <- "answer"
-                        
-                        text3 <- word(text, -2, numwords)
-                        #filtdf3 <- trigram #%>% filter(nchar == nchar(text3))
-                        lookup3 <- grep(text3, trigram$string)
-                        answer3 <- data.frame(trigram$next_word[lookup3])
+                        answer3 <- data.frame(matrix(ncol = 1))
                         colnames(answer3) <- "answer"
+                        
+                        numwords <- wordcount(text)
+                        if(numwords > 6) {
+                                text8 <- word(text, -7, numwords)
+                                #filtdf5 <- pentagram %>% filter(nchar == nchar(text5))
+                                lookup8 <- grep(text8, octogram$string)
+                                answer8 <- data.frame(octogram$next_word[lookup8])
+                                colnames(answer8) <- "answer"
+                        }
+                        
+                        if(numwords > 5) {
+                                text7 <- word(text, -6, numwords)
+                                #filtdf5 <- pentagram %>% filter(nchar == nchar(text5))
+                                lookup7 <- grep(text7, heptagram$string)
+                                answer7 <- data.frame(heptagram$next_word[lookup7])
+                                colnames(answer7) <- "answer"
+                        }
+                        
+                        if(numwords > 4) {
+                                text6 <- word(text, -5, numwords)
+                                #filtdf5 <- pentagram %>% filter(nchar == nchar(text5))
+                                lookup6 <- grep(text6, hexagram$string)
+                                answer6 <- data.frame(hexagram$next_word[lookup6])
+                                colnames(answer6) <- "answer"
+                        }
+                        
+                        if(numwords > 3) {
+                                text5 <- word(text, -4, numwords)
+                                #filtdf5 <- pentagram %>% filter(nchar == nchar(text5))
+                                lookup5 <- grep(text5, pentagram$string)
+                                answer5 <- data.frame(pentagram$next_word[lookup5])
+                                colnames(answer5) <- "answer"
+                        }
+                        
+                        if(numwords > 2) {
+                                text4 <- word(text, -3, numwords)
+                                #filtdf4 <- quadragram #%>% filter(nchar == nchar(text4))
+                                lookup4 <- grep(text4, quadragram$string)
+                                answer4 <- data.frame(quadragram$next_word[lookup4])
+                                colnames(answer4) <- "answer"
+                        }
+                        
+                        if(numwords > 1) {
+                                text3 <- word(text, -2, numwords)
+                                #filtdf3 <- trigram #%>% filter(nchar == nchar(text3))
+                                lookup3 <- grep(text3, trigram$string)
+                                answer3 <- data.frame(trigram$next_word[lookup3])
+                                colnames(answer3) <- "answer"
+                        }
                         
                         text2 <- word(text, -1, numwords)
                         #filtdf2 <- bigram #%>% filter(nchar == nchar(text2))
