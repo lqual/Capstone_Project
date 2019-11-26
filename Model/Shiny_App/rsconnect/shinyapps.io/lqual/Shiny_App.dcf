@@ -1,0 +1,12 @@
+name: Shiny_App
+title: Shiny_App
+username:
+account: lqual
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1525696
+bundleId: 2617708
+url: https://lqual.shinyapps.io/Shiny_App/
+when: 1574734603.44236
+asMultiple: FALSE
+asStatic: FALSE
