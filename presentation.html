@@ -3120,15 +3120,22 @@ slide:not(.current) .plotly.html-widget{
           </hgroup>
   </slide>
 
-<slide class=""><hgroup><h2>Text Prediction Application</h2></hgroup><article  id="text-prediction-application">
+<slide class=""><hgroup><h2>Model Description</h2></hgroup><article  id="model-description">
 
 <ul>
-<li>Can you never remember the next word you want to say?</li>
-<li>Are you worried your text prediction keyboards are storing and selling your data?</li>
-<li>Do you like learning new words?</li>
+<li>The model uses the stupid backoff method to determine its prediction.</li>
+<li>It starts by looking for matches of the input phrase at the 7-gram level down to the 1-gram level. The predictions are returned by the highest number of occurences at the largest n-gram size.</li>
+<li>If there are no matches of the phrase amongst the data set, the model samples 3 of the top 10 occuring words in the dataset, based on the number of occurences (this is to avoid the same three words being produced in the same order for unkown phrases).</li>
 </ul>
 
-<p>This app is a perfect fit for you!</p>
+</article></slide><slide class=""><hgroup><h2>Data Used for the Model</h2></hgroup><article  id="data-used-for-the-model">
+
+<ul>
+<li>The model uses data from 75% of the blogs, news, and twitter data.</li>
+<li>Due to processing times, 1/3 of the 75% of the data was used for 7-grams, 6-grams, and 5-grams.<br/></li>
+<li>4-grams, 3-grams, and 2-grams each used a separate 20% of the data while 1-grams used the remaining 15%.</li>
+<li>In laymen’s terms, the 75% of the total data was divided twice among the 5-7 grams and again among the 1-4 grams to achieve greater coverage of the data while reducing processing times.</li>
+</ul>
 
 </article></slide><slide class=""><hgroup><h2>How It Works</h2></hgroup><article  id="how-it-works">
 
@@ -3156,21 +3163,7 @@ slide:not(.current) .plotly.html-widget{
 
 <pre >[1] &quot;Prediction3:  bathroom&quot;</pre>
 
-<p>Our next word was the second prediction of the application!</p>
-
-</article></slide><slide class=""><hgroup><h2>Data Used for Application</h2></hgroup><article  id="data-used-for-application">
-
-<ul>
-<li>The application uses ngrams as large as 7 words to as small as 1 word to predict the next word.</li>
-<li>If the application comes accross an unkown phrase, it selects 3 of the 10 most observed words in our dataset according to their number of occurences: the, and, for, that, you, with, was, this, have, or are.</li>
-<li>Example of unknown phrase output below.</li>
-</ul>
-
-<pre >[1] &quot;Prediction1:  this&quot;</pre>
-
-<pre >[1] &quot;Prediction2:  for&quot;</pre>
-
-<pre >[1] &quot;Prediction3:  was&quot;</pre></article></slide>
+<p>Our next word was the second prediction of the application!</p></article></slide>
 
 
   <slide class="backdrop"></slide>

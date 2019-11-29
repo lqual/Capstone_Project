@@ -9,13 +9,18 @@ output: ioslides_presentation
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-## Text Prediction Application
+## Model Description
 
-- Can you never remember the next word you want to say?
-- Are you worried your text prediction keyboards are storing and selling your data?
-- Do you like learning new words?
+- The model uses the stupid backoff method to determine its prediction.
+- It starts by looking for matches of the input phrase at the 7-gram level down to the 1-gram level.  The predictions are returned by the highest number of occurences at the largest n-gram size.
+- If there are no matches of the phrase amongst the data set, the model samples 3 of the top 10 occuring words in the dataset, based on the number of occurences (this is to avoid the same three words being produced in the same order for unkown phrases).
 
-This app is a perfect fit for you!
+## Data Used for the Model
+
+- The model uses data from 75% of the blogs, news, and twitter data.
+- Due to processing times, 1/3 of the 75% of the data was used for 7-grams, 6-grams, and 5-grams.  
+- 4-grams, 3-grams, and 2-grams each used a separate 20% of the data while 1-grams used the remaining 15%.
+- In laymen's terms, the 75% of the total data was divided twice among the 5-7 grams and again among the 1-4 grams to achieve greater coverage of the data while reducing processing times.
 
 ## How It Works
 
@@ -43,22 +48,7 @@ paste("Prediction3: ", answer[3, 1], sep = " ")
 
 Our next word was the second prediction of the application!
 
-## Data Used for Application
 
-- The application uses ngrams as large as 7 words to as small as 1 word to predict the next word.
-- If the application comes accross an unkown phrase, it selects 3 of the 10 most observed words in our dataset according to their number of occurences: the, and, for, that, you, with, was, this, have, or are.
-- Example of unknown phrase output below.
-```{r, echo=FALSE, message=FALSE, comment=""}
-myprobs <- c(10/26, 5/26, 2/26, 2/26, 2/26, 1/26, 1/26, 1/26, 1/26, 1/26)
-lookup1 <- sample(1:10, size = 3, replace = FALSE, prob = myprobs)
-unigram <- data.frame(next_word = c("the", "and", "for", "that", "you",
-                                    "with", "was", "this", "have","are"))
-answer1 <- data.frame(unigram$next_word[lookup1])
-colnames(answer1) <- "answer"
-paste("Prediction1: ", answer1[1, 1], sep = " ")
-paste("Prediction2: ", answer1[2, 1], sep = " ")
-paste("Prediction3: ", answer1[3, 1], sep = " ")
-```
 
 
 
