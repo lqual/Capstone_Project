@@ -21,25 +21,27 @@ shinyServer(function(input, output) {
                         text <- input$text
                         
                         #processing text
-                        if(wordcount(text) == 1) {
+                        text <- paste("Sandler's", text, sep = " ")
+                        text <- gsub('[0-9]+', '', text)
+                        #if(wordcount(text) == 1) {
                                 text <- tolower(text)
                                 text <- trimws(text, which = "both")
                                 text <- removePunctuation(text)
                                 text <- removeNumbers(text)
-                        } else {
-                                length <- wordcount(text)
-                                text <- VCorpus(VectorSource(text))
-                                text <- tm_map(text, stripWhitespace)
-                                text <- tm_map(text, content_transformer(tolower))
-                                text <- tm_map(text, removePunctuation)
-                                text <- tm_map(text, removeNumbers)
-                                uno <- function(x) unlist(lapply(ngrams(words(x), length), paste, collapse = " "), 
-                                                          use.names = FALSE)
-                                text <- DocumentTermMatrix(text,control=list(tokenize=uno))
-                                text <- findMostFreqTerms(text, n = 1)
-                                text <- as.data.frame(text)
-                                text <- rownames(text)
-                        }
+                        #} else {
+                        #        length <- wordcount(text)
+                        #        text <- VCorpus(VectorSource(text))
+                        #        text <- tm_map(text, stripWhitespace)
+                        #        text <- tm_map(text, content_transformer(tolower))
+                        #        text <- tm_map(text, removePunctuation)
+                        #        text <- tm_map(text, removeNumbers)
+                        #        uno <- function(x) unlist(lapply(ngrams(words(x), length), paste, collapse = " "), 
+                        #                                  use.names = FALSE)
+                        #        text <- DocumentTermMatrix(text,control=list(tokenize=uno))
+                        #        text <- findMostFreqTerms(text, n = 1)
+                        #        text <- as.data.frame(text)
+                        #        text <- rownames(text)
+                        #}
                         
                         
                         #lookup in file
@@ -130,7 +132,7 @@ shinyServer(function(input, output) {
                         finalAnswer <- finalAnswer[!is.na(finalAnswer$answer), ]
                         finalAnswer <- finalAnswer %>% select(answer)
                         finalAnswer$answer <- as.character(finalAnswer$answer)
-                        
+                               
                         word1 <- finalAnswer[1, 1]
                         word2 <- finalAnswer[2, 1]
                         word3 <- finalAnswer[3, 1]
