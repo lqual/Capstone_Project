@@ -1,0 +1,71 @@
+---
+title: "Text Prediction Application"
+author: "Lucas Qualmann"
+date: "11/29/2019"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Text Prediction Application
+
+- Can you never remember the next word you want to say?
+- Are you worried your text prediction keyboards are storing and selling your data?
+- Do you like learning new words?
+
+This app is a perfect fit for you!
+
+## How It Works
+
+- Type a phrase in the text box ommitting the word you want predicted and hit the submit button.
+- You will see the application's first, second, and third choice of predicted words.
+- Compare it to the word you were thinking of using.
+
+It's that simple!
+
+[Here's the link to the application!](https://lqual.shinyapps.io/Shiny_App/)
+
+## Example
+
+- Phrase: "Let's go to the"
+- Our next word: "mall"
+- Predictions:
+
+```{r, echo=FALSE, message=FALSE, comment=""}
+source('~/Capstone_Project/Model/textPredictor.R')
+answer <- getword("Let's go to the")
+paste("Prediction1: ", answer[1, 1], sep = " ")
+paste("Prediction2: ", answer[2, 1], sep = " ")
+paste("Prediction3: ", answer[3, 1], sep = " ")
+```
+
+Our next word was the second prediction of the application!
+
+## Data Used for Application
+
+- The application uses ngrams as large as 7 words to as small as 1 word to predict the next word.
+- If the application comes accross an unkown phrase, it selects 3 of the 10 most observed words in our dataset according to their number of occurences: the, and, for, that, you, with, was, this, have, or are.
+- Example of unknown phrase output below.
+```{r, echo=FALSE, message=FALSE, comment=""}
+myprobs <- c(10/26, 5/26, 2/26, 2/26, 2/26, 1/26, 1/26, 1/26, 1/26, 1/26)
+lookup1 <- sample(1:10, size = 3, replace = FALSE, prob = myprobs)
+unigram <- data.frame(next_word = c("the", "and", "for", "that", "you",
+                                    "with", "was", "this", "have","are"))
+answer1 <- data.frame(unigram$next_word[lookup1])
+colnames(answer1) <- "answer"
+paste("Prediction1: ", answer1[1, 1], sep = " ")
+paste("Prediction2: ", answer1[2, 1], sep = " ")
+paste("Prediction3: ", answer1[3, 1], sep = " ")
+```
+
+
+
+
+
+
+
+
+
+
